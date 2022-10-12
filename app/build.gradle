@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+//    TODO 1 : Set your extension's Package Name.
     namespace 'com.parabox.example'
     compileSdk 33
 

@@ -20,9 +20,9 @@
         android:theme="@style/Theme.ParaboxExtensionExample"
         tools:targetApi="31">
 
-<!--        TODO 1: Set your extension's Type and Name here.-->
-        <meta-data android:name="connection_type" android:value="999"/>
-        <meta-data android:name="connection_name" android:value="Example"/>
+<!--        TODO 2: Set your extension's Type and Name here.-->
+        <meta-data android:name="connection_type" android:value=""/>
+        <meta-data android:name="connection_name" android:value=""/>
 
         <service
             android:name=".domain.service.ConnService"

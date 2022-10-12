@@ -15,6 +15,7 @@ import com.ojhdtapp.paraboxdevelopmentkit.messagedto.ReceiveMessageDto
 import com.ojhdtapp.paraboxdevelopmentkit.messagedto.SendMessageDto
 import com.ojhdtapp.paraboxdevelopmentkit.messagedto.SendTargetType
 import com.ojhdtapp.paraboxdevelopmentkit.messagedto.message_content.PlainText
+import com.ojhdtapp.paraboxdevelopmentkit.messagedto.message_content.getContentString
 import com.parabox.example.core.util.DataStoreKeys
 import com.parabox.example.core.util.NotificationUtil
 import com.parabox.example.core.util.dataStore
@@ -22,6 +23,9 @@ import com.parabox.example.domain.util.CustomKey
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class ConnService : ParaboxService() {
     companion object {
@@ -29,6 +33,7 @@ class ConnService : ParaboxService() {
     }
 
     private fun receiveTestMessage(msg: Message, metadata: ParaboxMetadata) {
+        // TODO 11 : Receive Message
         val content = (msg.obj as Bundle).getString("content") ?: "No content"
         val profile = Profile(
             name = "anonymous",
@@ -49,6 +54,7 @@ class ConnService : ParaboxService() {
                 )
             ),
             onResult = {
+                // TODO 7 : Call sendCommandResponse when the job is done
                 if (it is ParaboxResult.Success) {
                     sendCommandResponse(
                         isSuccess = true,
@@ -71,8 +77,16 @@ class ConnService : ParaboxService() {
         )
     }
 
+    // TODO 9 : Call sendNotification function with NOTIFICATION_SHOW_TEST_MESSAGE_SNACKBAR
+    private fun showTestMessageSnackbar(message: String) {
+        sendNotification(CustomKey.NOTIFICATION_SHOW_TEST_MESSAGE_SNACKBAR, Bundle().apply {
+            putString("message", message)
+        })
+    }
+
     override fun customHandleMessage(msg: Message, metadata: ParaboxMetadata) {
         when (msg.what) {
+            // TODO 6: Handle custom command
             CustomKey.COMMAND_RECEIVE_TEST_MESSAGE -> {
                 receiveTestMessage(msg, metadata)
             }
@@ -80,7 +94,6 @@ class ConnService : ParaboxService() {
     }
 
     override fun onMainAppLaunch() {
-        Log.d("parabox", "onMainAppLaunch")
         // Auto Login
         if (getServiceState() == ParaboxKey.STATE_STOP) {
             lifecycleScope.launch {
@@ -102,13 +115,21 @@ class ConnService : ParaboxService() {
     }
 
     override suspend fun onSendMessage(dto: SendMessageDto): Boolean {
-
+        val contentString = dto.contents.getContentString()
+        showTestMessageSnackbar(contentString)
         return true
     }
 
     override fun onStartParabox() {
-        NotificationUtil.startForegroundService(this)
         lifecycleScope.launch {
+            // Foreground Service
+            val isForegroundServiceEnabled =
+                dataStore.data.first()[DataStoreKeys.FOREGROUND_SERVICE] ?: false
+            if (isForegroundServiceEnabled) {
+                NotificationUtil.startForegroundService(this@ConnService)
+            }
+
+//            TODO 3: Delete the code below, and write your own startup process
             updateServiceState(ParaboxKey.STATE_LOADING, "Step A")
             delay(1000)
             updateServiceState(ParaboxKey.STATE_LOADING, "Step B")

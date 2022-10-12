@@ -21,6 +21,7 @@ import com.parabox.example.domain.util.CustomKey
 import com.parabox.example.domain.util.ServiceStatus
 import com.parabox.example.ui.main.MainScreen
 import com.parabox.example.ui.main.MainViewModel
+import com.parabox.example.ui.main.UiEvent
 import com.parabox.example.ui.theme.ParaboxExtensionExampleTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -50,6 +51,7 @@ class MainActivity : ParaboxActivity<ConnService>(ConnService::class.java) {
     }
 
     fun receiveTestMessage() {
+        // TODO 5 : Call sendCommand function with COMMAND_RECEIVE_TEST_MESSAGE
         sendCommand(command = CustomKey.COMMAND_RECEIVE_TEST_MESSAGE,
             extra = Bundle().apply {
                 putString("content", "Message sent at ${System.currentTimeMillis()}")
@@ -77,8 +79,21 @@ class MainActivity : ParaboxActivity<ConnService>(ConnService::class.java) {
             })
     }
 
-    override fun customHandleMessage(msg: Message, metadata: ParaboxMetadata) {
+    private fun showTestMessageSnackbar(message: String){
+        viewModel.emitToUiEventFlow(
+            UiEvent.ShowSnackbar(message)
+        )
+    }
 
+    override fun customHandleMessage(msg: Message, metadata: ParaboxMetadata) {
+        when(msg.what){
+            // TODO 10: Handle custom notification
+            CustomKey.NOTIFICATION_SHOW_TEST_MESSAGE_SNACKBAR -> {
+                (msg.obj as Bundle).getString("message")?.also {
+                    showTestMessageSnackbar(it)
+                }
+            }
+        }
     }
 
     override fun onParaboxServiceConnected() {

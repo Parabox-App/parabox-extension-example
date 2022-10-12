@@ -15,7 +15,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -28,6 +30,14 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     @ApplicationContext val context: Context,
 ) : ViewModel() {
+    // UiEvent
+    private val _uiEventFlow = MutableSharedFlow<UiEvent>()
+    val uiEventFlow = _uiEventFlow.asSharedFlow()
+    fun emitToUiEventFlow(event: UiEvent) {
+        viewModelScope.launch {
+            _uiEventFlow.emit(event)
+        }
+    }
 
     // MainApp Installation
     private val _isMainAppInstalled = MutableStateFlow(false)
@@ -88,4 +98,8 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+}
+
+sealed interface UiEvent{
+    data class ShowSnackbar(val message: String): UiEvent
 }
