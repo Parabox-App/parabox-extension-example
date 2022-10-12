@@ -2,7 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <queries>
+        <package android:name="com.ojhdtapp.parabox" />
+    </queries>
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <application
+        android:name=".core.HiltApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,9 +19,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ParaboxExtensionExample"
         tools:targetApi="31">
+
+<!--        TODO 1: Set your extension's Type and Name here.-->
+        <meta-data android:name="connection_type" android:value="999"/>
+        <meta-data android:name="connection_name" android:value="Example"/>
+
+        <service
+            android:name=".domain.service.ConnService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.ojhdtapp.parabox.PLUGIN"/>
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.ParaboxExtensionExample">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
