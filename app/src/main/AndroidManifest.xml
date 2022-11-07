@@ -21,8 +21,17 @@
         tools:targetApi="31">
 
 <!--        TODO 2: Set your extension's Type and Name here.-->
-        <meta-data android:name="connection_type" android:value=""/>
-        <meta-data android:name="connection_name" android:value=""/>
+        <meta-data android:name="connection_type" android:value="1"/>
+        <meta-data android:name="connection_name" android:value="Example"/>
+<!--        TODO 2-1: Configure basic information for your extension-->
+        <meta-data android:name="author" android:value="Parabox"/>
+        <meta-data android:name="description" android:value="Parabox Extension Example"/>
+        <meta-data android:name="plain_text_support" android:value="1"/>
+        <meta-data android:name="image_support" android:value="0"/>
+        <meta-data android:name="audio_support" android:value="0"/>
+        <meta-data android:name="file_support" android:value="0"/>
+        <meta-data android:name="at_support" android:value="0"/>
+        <meta-data android:name="quote_reply_support" android:value="0"/>
 
         <service
             android:name=".domain.service.ConnService"

@@ -50,6 +50,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -96,7 +97,7 @@ fun MainScreen(
         modifier = modifier,
         topBar = {
             LargeTopAppBar(
-//                modifier = Modifier.statusBarsPadding(),
+                modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
                 title = { Text(text = stringResource(id = R.string.app_name)) },
                 navigationIcon = {
                     if (isMainAppInstalled) {
