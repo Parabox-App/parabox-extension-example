@@ -120,6 +120,7 @@ fun MainScreen(
                             DropdownMenuItem(
                                 text = { Text(text = stringResource(id = R.string.force_stop_service)) },
                                 onClick = {
+                                    (context as MainActivity).forceStopParaboxService {  }
                                     menuExpanded = false
                                 },
                                 leadingIcon = {

@@ -136,17 +136,16 @@ class MainActivity : ParaboxActivity<ConnService>(ConnService::class.java) {
         // Check MainApp Installation
         checkMainAppInstallation()
         setContent {
-            // Set Icons Color on Immersive Navigation Bar
-            val systemUiController = rememberSystemUiController()
-            val useDarkIcons = !isSystemInDarkTheme()
-            SideEffect {
-                systemUiController.setSystemBarsColor(
-                    color = Color.Transparent,
-                    darkIcons = useDarkIcons
-                )
-            }
-
             ParaboxExtensionExampleTheme {
+                // Set Icons Color on Immersive Navigation Bar
+                val systemUiController = rememberSystemUiController()
+                val useDarkIcons = !isSystemInDarkTheme()
+                SideEffect {
+                    systemUiController.setSystemBarsColor(
+                        color = Color.Transparent,
+                        darkIcons = useDarkIcons
+                    )
+                }
                 MainScreen(
                     viewModel = viewModel
                 )

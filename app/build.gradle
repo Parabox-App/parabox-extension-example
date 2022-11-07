@@ -65,6 +65,7 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+    implementation "com.google.android.material:material:1.8.0-alpha02"
 
     // Development Kit
     implementation 'com.ojhdt:parabox-development-kit:1.0.4'
