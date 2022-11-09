@@ -120,7 +120,7 @@ fun MainScreen(
                             DropdownMenuItem(
                                 text = { Text(text = stringResource(id = R.string.force_stop_service)) },
                                 onClick = {
-                                    (context as MainActivity).forceStopParaboxService {  }
+                                    (context as MainActivity).forceStopParaboxService { }
                                     menuExpanded = false
                                 },
                                 leadingIcon = {
@@ -135,9 +135,12 @@ fun MainScreen(
                 scrollBehavior = scrollBehavior
             )
         },
-        snackbarHost = { SnackbarHost(hostState = snackBarHostState)}
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
     ) { paddingValues ->
-        LazyColumn(contentPadding = paddingValues) {
+        LazyColumn(
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            contentPadding = paddingValues
+        ) {
             item {
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -197,7 +200,7 @@ fun MainScreen(
             item {
                 PreferencesCategory(text = stringResource(id = R.string.test_category))
             }
-            item{
+            item {
                 NormalPreference(title = stringResource(id = R.string.test_send_message)) {
                     (context as MainActivity).receiveTestMessage()
                 }
