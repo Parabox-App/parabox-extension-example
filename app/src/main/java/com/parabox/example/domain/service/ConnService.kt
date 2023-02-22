@@ -37,8 +37,9 @@ class ConnService : ParaboxService() {
         val content = (msg.obj as Bundle).getString("content") ?: "No content"
         val profile = Profile(
             name = "anonymous",
-            avatar = "https://gravatar.loli.net/avatar/d41d8cd98f00b204e9800998ecf8427e?d=mp&v=1.5.1",
-            id = 1L
+            avatar = "https://gravatar.loli.net/avatar/0c13fa7156f734513afeb1d4a965c219?d=mp&v=1.5.1",
+            id = 1L,
+            avatarUri = null
         )
         receiveMessage(
             ReceiveMessageDto(
